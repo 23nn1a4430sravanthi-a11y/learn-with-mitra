@@ -27,35 +27,53 @@ const ProgressDashboard = () => {
       description: "Statistics, Probability, Linear Algebra",
       status: "completed",
       progress: 100,
-      duration: "4 weeks"
+      duration: "4 weeks",
+      projects: [],
+      internships: []
     },
     { 
       title: "Excel", 
       description: "Formulas, Pivot Tables, Data Visualization",
       status: "current",
       progress: 60,
-      duration: "3 weeks"
+      duration: "3 weeks",
+      projects: [
+        { name: "Sales Dashboard", difficulty: "Beginner", description: "Create a monthly sales tracker with charts" },
+        { name: "Budget Planner", difficulty: "Beginner", description: "Build a personal expense tracking sheet" },
+        { name: "Data Cleaning Project", difficulty: "Intermediate", description: "Clean and format messy datasets" },
+      ],
+      internships: [
+        { company: "DataCorp", role: "Excel Data Entry Intern", type: "Remote", duration: "1 month" },
+        { company: "Finance Solutions", role: "Junior Analyst Intern", type: "Hybrid", duration: "2 months" },
+        { company: "Marketing Hub", role: "Data Assistant", type: "Remote", duration: "6 weeks" },
+      ]
     },
     { 
       title: "SQL", 
       description: "Queries, Joins, Database Design",
       status: "locked",
       progress: 0,
-      duration: "4 weeks"
+      duration: "4 weeks",
+      projects: [],
+      internships: []
     },
     { 
       title: "Power BI", 
       description: "Dashboards, DAX, Data Modeling",
       status: "locked",
       progress: 0,
-      duration: "3 weeks"
+      duration: "3 weeks",
+      projects: [],
+      internships: []
     },
     { 
       title: "Python", 
       description: "Pandas, NumPy, Data Analysis",
       status: "locked",
       progress: 0,
-      duration: "6 weeks"
+      duration: "6 weeks",
+      projects: [],
+      internships: []
     },
   ];
 
@@ -199,17 +217,74 @@ const ProgressDashboard = () => {
                               
                               {!isLocked && (
                                 <CardContent className="pt-0">
-                                  <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-sm">
-                                      <span className="text-muted-foreground">Progress</span>
-                                      <span className="font-semibold">{step.progress}%</span>
+                                  <div className="space-y-4">
+                                    <div className="space-y-2">
+                                      <div className="flex items-center justify-between text-sm">
+                                        <span className="text-muted-foreground">Progress</span>
+                                        <span className="font-semibold">{step.progress}%</span>
+                                      </div>
+                                      <Progress value={step.progress} className="h-2" />
+                                      
+                                      {isCurrent && step.progress < 100 && (
+                                        <p className="text-xs text-muted-foreground mt-2">
+                                          Keep going! You&apos;re {100 - step.progress}% away from completion.
+                                        </p>
+                                      )}
                                     </div>
-                                    <Progress value={step.progress} className="h-2" />
-                                    
-                                    {isCurrent && step.progress < 100 && (
-                                      <p className="text-xs text-muted-foreground mt-2">
-                                        Keep going! You're {100 - step.progress}% away from completion.
-                                      </p>
+
+                                    {/* Projects & Internships for Current Step */}
+                                    {isCurrent && (step.projects.length > 0 || step.internships.length > 0) && (
+                                      <div className="grid md:grid-cols-2 gap-4 pt-4 border-t">
+                                        {/* Projects */}
+                                        {step.projects.length > 0 && (
+                                          <div className="space-y-3">
+                                            <h5 className="font-semibold text-sm flex items-center gap-2">
+                                              <Target className="h-4 w-4 text-primary" />
+                                              Recommended Projects
+                                            </h5>
+                                            <div className="space-y-2">
+                                              {step.projects.map((project, idx) => (
+                                                <div key={idx} className="p-3 rounded-lg bg-secondary/50 border border-border hover:border-primary/50 transition-colors">
+                                                  <div className="flex items-start justify-between gap-2 mb-1">
+                                                    <p className="font-medium text-sm">{project.name}</p>
+                                                    <Badge variant="outline" className="text-xs shrink-0">
+                                                      {project.difficulty}
+                                                    </Badge>
+                                                  </div>
+                                                  <p className="text-xs text-muted-foreground">
+                                                    {project.description}
+                                                  </p>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+                                        )}
+
+                                        {/* Internships */}
+                                        {step.internships.length > 0 && (
+                                          <div className="space-y-3">
+                                            <h5 className="font-semibold text-sm flex items-center gap-2">
+                                              <Award className="h-4 w-4 text-accent" />
+                                              Available Internships
+                                            </h5>
+                                            <div className="space-y-2">
+                                              {step.internships.map((internship, idx) => (
+                                                <div key={idx} className="p-3 rounded-lg bg-accent/5 border border-accent/20 hover:border-accent/50 transition-colors">
+                                                  <div className="flex items-start justify-between gap-2 mb-1">
+                                                    <p className="font-medium text-sm">{internship.role}</p>
+                                                    <Badge variant="outline" className="text-xs shrink-0">
+                                                      {internship.type}
+                                                    </Badge>
+                                                  </div>
+                                                  <p className="text-xs text-muted-foreground">
+                                                    {internship.company} • {internship.duration}
+                                                  </p>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
                                     )}
                                   </div>
                                 </CardContent>
