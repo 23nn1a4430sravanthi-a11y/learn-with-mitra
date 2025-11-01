@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Award, BookOpen, Clock, Target, Check, Lock } from "lucide-react";
+import { Award, BookOpen, Clock, Target, Check, Lock, MapPin, TrendingUp } from "lucide-react";
 
 const ProgressDashboard = () => {
   const courses = [
@@ -17,36 +17,45 @@ const ProgressDashboard = () => {
     { icon: Award, label: "Certificates", value: "8", color: "text-primary" },
   ];
 
-  const roadmapStages = [
+  // Career Goal: Data Analyst
+  const careerGoal = "Data Analyst";
+  const currentStep = 1; // 0-based index (Excel = 1)
+  
+  const careerRoadmap = [
     { 
-      title: "Fundamentals", 
-      status: "completed", 
-      modules: ["Introduction to Programming", "Basic Syntax", "Variables & Data Types"],
-      progress: 100
+      title: "Mathematics", 
+      description: "Statistics, Probability, Linear Algebra",
+      status: "completed",
+      progress: 100,
+      duration: "4 weeks"
     },
     { 
-      title: "Core Concepts", 
-      status: "completed", 
-      modules: ["Functions & Methods", "Control Flow", "Object-Oriented Programming"],
-      progress: 100
+      title: "Excel", 
+      description: "Formulas, Pivot Tables, Data Visualization",
+      status: "current",
+      progress: 60,
+      duration: "3 weeks"
     },
     { 
-      title: "Advanced Topics", 
-      status: "in-progress", 
-      modules: ["Data Structures", "Algorithms", "Design Patterns"],
-      progress: 65
+      title: "SQL", 
+      description: "Queries, Joins, Database Design",
+      status: "locked",
+      progress: 0,
+      duration: "4 weeks"
     },
     { 
-      title: "Specialization", 
-      status: "locked", 
-      modules: ["Web Development", "Machine Learning", "Mobile Development"],
-      progress: 0
+      title: "Power BI", 
+      description: "Dashboards, DAX, Data Modeling",
+      status: "locked",
+      progress: 0,
+      duration: "3 weeks"
     },
     { 
-      title: "Mastery", 
-      status: "locked", 
-      modules: ["Advanced Projects", "System Design", "Open Source Contribution"],
-      progress: 0
+      title: "Python", 
+      description: "Pandas, NumPy, Data Analysis",
+      status: "locked",
+      progress: 0,
+      duration: "6 weeks"
     },
   ];
 
@@ -54,14 +63,17 @@ const ProgressDashboard = () => {
     <section className="py-24 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Target className="h-6 w-6 text-primary" />
+            <p className="text-sm font-medium text-muted-foreground">Career Goal</p>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Track Your{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Learning Journey
+              {careerGoal}
             </span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Visual roadmap showing your progress, achievements, and next steps
+            Follow your personalized roadmap and track your progress in real-time
           </p>
         </div>
 
@@ -85,76 +97,130 @@ const ProgressDashboard = () => {
             ))}
           </div>
 
-          {/* Visual Roadmap */}
-          <Card className="shadow-card">
+          {/* Career Roadmap Path */}
+          <Card className="shadow-card border-primary/30">
             <CardHeader>
-              <CardTitle>Your Learning Roadmap</CardTitle>
-              <CardDescription>Track your journey from beginner to mastery</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                    Your Career Roadmap
+                  </CardTitle>
+                  <CardDescription>Step-by-step path to becoming a {careerGoal}</CardDescription>
+                </div>
+                <Badge className="bg-gradient-primary">
+                  Step {currentStep + 1} of {careerRoadmap.length}
+                </Badge>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-8">
-                {roadmapStages.map((stage, index) => (
-                  <div key={index} className="relative">
-                    {/* Connection Line */}
-                    {index < roadmapStages.length - 1 && (
-                      <div className="absolute left-6 top-14 w-0.5 h-16 bg-border" />
-                    )}
-                    
-                    <div className="flex gap-4">
-                      {/* Status Icon */}
-                      <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
-                        stage.status === 'completed' 
-                          ? 'bg-gradient-primary text-white' 
-                          : stage.status === 'in-progress'
-                          ? 'bg-accent/20 text-accent border-2 border-accent'
-                          : 'bg-muted text-muted-foreground'
-                      }`}>
-                        {stage.status === 'completed' && <Check className="h-6 w-6" />}
-                        {stage.status === 'in-progress' && <Target className="h-6 w-6" />}
-                        {stage.status === 'locked' && <Lock className="h-5 w-5" />}
-                      </div>
+              <div className="relative">
+                {/* Progress Line */}
+                <div className="absolute left-8 top-0 bottom-0 w-1 bg-border" />
+                <div 
+                  className="absolute left-8 top-0 w-1 bg-gradient-primary transition-all duration-1000"
+                  style={{ 
+                    height: `${(currentStep / (careerRoadmap.length - 1)) * 100}%` 
+                  }}
+                />
 
-                      {/* Stage Content */}
-                      <div className="flex-1 pb-8">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-semibold text-lg">{stage.title}</h4>
-                          <Badge variant={
-                            stage.status === 'completed' ? 'default' : 
-                            stage.status === 'in-progress' ? 'secondary' : 
-                            'outline'
-                          }>
-                            {stage.status === 'completed' ? 'Completed' : 
-                             stage.status === 'in-progress' ? 'In Progress' : 
-                             'Locked'}
-                          </Badge>
-                        </div>
-                        
-                        {stage.status !== 'locked' && (
-                          <>
-                            <div className="mb-3">
-                              <Progress value={stage.progress} className="h-2" />
-                              <p className="text-xs text-muted-foreground mt-1">{stage.progress}% Complete</p>
+                <div className="space-y-8">
+                  {careerRoadmap.map((step, index) => {
+                    const isCurrent = index === currentStep;
+                    const isCompleted = step.status === 'completed';
+                    const isLocked = step.status === 'locked';
+                    
+                    return (
+                      <div key={index} className="relative">
+                        <div className="flex gap-6">
+                          {/* Status Node */}
+                          <div className="relative flex-shrink-0">
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center z-10 relative transition-all duration-300 ${
+                              isCurrent
+                                ? 'bg-gradient-primary text-white shadow-glow ring-4 ring-primary/20 animate-pulse'
+                                : isCompleted
+                                ? 'bg-gradient-primary text-white shadow-card'
+                                : 'bg-muted text-muted-foreground border-2 border-border'
+                            }`}>
+                              {isCurrent && <MapPin className="h-7 w-7" />}
+                              {isCompleted && <Check className="h-7 w-7" />}
+                              {isLocked && <Lock className="h-6 w-6" />}
                             </div>
-                            <div className="space-y-1">
-                              {stage.modules.map((module, idx) => (
-                                <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                                  {module}
+                            
+                            {/* Current Position Indicator */}
+                            {isCurrent && (
+                              <div className="absolute -right-3 top-0 animate-bounce">
+                                <div className="bg-accent text-accent-foreground text-xs font-bold px-2 py-1 rounded-full whitespace-nowrap shadow-elevated">
+                                  You are here
                                 </div>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                        
-                        {stage.status === 'locked' && (
-                          <p className="text-sm text-muted-foreground">
-                            Complete previous stages to unlock
-                          </p>
-                        )}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Step Content */}
+                          <div className={`flex-1 pb-8 transition-all duration-300 ${
+                            isCurrent ? 'scale-105' : ''
+                          }`}>
+                            <Card className={`transition-all duration-300 ${
+                              isCurrent 
+                                ? 'border-primary shadow-elevated bg-primary/5' 
+                                : isCompleted
+                                ? 'border-success/50 bg-success/5'
+                                : 'border-border bg-card'
+                            }`}>
+                              <CardHeader className="pb-3">
+                                <div className="flex items-start justify-between gap-4">
+                                  <div>
+                                    <CardTitle className={`text-xl mb-1 ${
+                                      isCurrent ? 'text-primary' : ''
+                                    }`}>
+                                      {step.title}
+                                    </CardTitle>
+                                    <CardDescription className="text-sm">
+                                      {step.description}
+                                    </CardDescription>
+                                  </div>
+                                  <div className="flex flex-col items-end gap-2">
+                                    <Badge variant={
+                                      isCompleted ? 'default' : 
+                                      isCurrent ? 'secondary' : 
+                                      'outline'
+                                    } className="shrink-0">
+                                      {isCompleted ? '✓ Done' : 
+                                       isCurrent ? 'In Progress' : 
+                                       'Upcoming'}
+                                    </Badge>
+                                    <span className="text-xs text-muted-foreground">
+                                      {step.duration}
+                                    </span>
+                                  </div>
+                                </div>
+                              </CardHeader>
+                              
+                              {!isLocked && (
+                                <CardContent className="pt-0">
+                                  <div className="space-y-2">
+                                    <div className="flex items-center justify-between text-sm">
+                                      <span className="text-muted-foreground">Progress</span>
+                                      <span className="font-semibold">{step.progress}%</span>
+                                    </div>
+                                    <Progress value={step.progress} className="h-2" />
+                                    
+                                    {isCurrent && step.progress < 100 && (
+                                      <p className="text-xs text-muted-foreground mt-2">
+                                        Keep going! You're {100 - step.progress}% away from completion.
+                                      </p>
+                                    )}
+                                  </div>
+                                </CardContent>
+                              )}
+                            </Card>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  })}
+                </div>
               </div>
             </CardContent>
           </Card>
