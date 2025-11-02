@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import ChatDemo from "@/components/ChatDemo";
 import ProgressDashboard from "@/components/ProgressDashboard";
+import YouTubeChannels from "@/components/YouTubeChannels";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -11,6 +12,7 @@ const Index = () => {
       <Features />
       <ChatDemo />
       <ProgressDashboard />
+      <YouTubeChannels />
       <Footer />
     </div>
   );

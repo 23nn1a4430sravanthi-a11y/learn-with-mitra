@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      courses: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          difficulty: string
+          id: string
+          title: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description?: string | null
+          difficulty: string
+          id?: string
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          difficulty?: string
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      youtube_channels: {
+        Row: {
+          category: string
+          channel_name: string
+          channel_url: string
+          created_at: string | null
+          description: string | null
+          id: string
+          subscriber_count: string | null
+          thumbnail_url: string | null
+        }
+        Insert: {
+          category: string
+          channel_name: string
+          channel_url: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          subscriber_count?: string | null
+          thumbnail_url?: string | null
+        }
+        Update: {
+          category?: string
+          channel_name?: string
+          channel_url?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          subscriber_count?: string | null
+          thumbnail_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
